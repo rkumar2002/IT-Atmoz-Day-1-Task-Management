@@ -44,14 +44,8 @@ export default function App() {
       const { flag, message, data } = res.data;
 
       if (flag === 1) {
-        // Support both array response and paginated object response
-        if (Array.isArray(data)) {
-          setTasks(data);
-          setTotalCount(data.length);
-        } else {
-          setTasks(data.tasks || data.items || []);
-          setTotalCount(data.total || data.totalCount || 0);
-        }
+        setTasks(data.tasks || []);
+        setTotalCount(data.pagination.totalTasks || 0);
       } else {
         showApiToast({ flag, message });
       }
@@ -135,14 +129,6 @@ export default function App() {
               <div>
                 <h1 className="text-white font-bold text-lg leading-none">TaskFlow</h1>
                 <p className="text-gray-500 text-xs leading-none mt-0.5">Task Management</p>
-              </div>
-            </div>
-
-            {/* Stats */}
-            <div className="hidden sm:flex items-center gap-4">
-              <div className="text-center">
-                <div className="text-indigo-400 font-semibold text-base leading-none">{totalCount}</div>
-                <div className="text-gray-600 text-xs mt-0.5">Total</div>
               </div>
             </div>
           </div>

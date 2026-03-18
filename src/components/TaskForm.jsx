@@ -24,7 +24,8 @@ export default function TaskForm({ onCreated }) {
     if (!form.title.trim()) errs.title = "Title is required.";
     else if (form.title.length > TITLE_MAX)
       errs.title = `Title must be ≤ ${TITLE_MAX} characters.`;
-    if (form.description.length > DESC_MAX)
+    if (!form.description.trim()) errs.description = "Description is required.";
+    else if (form.description.length > DESC_MAX)
       errs.description = `Description must be ≤ ${DESC_MAX} characters.`;
     return errs;
   };
@@ -139,7 +140,7 @@ export default function TaskForm({ onCreated }) {
               {/* Description */}
               <div>
                 <label className="text-xs text-gray-400 font-medium mb-1.5 block">
-                  Description
+                  Description <span className="text-red-400">*</span>
                 </label>
                 <textarea
                   name="description"
@@ -147,7 +148,7 @@ export default function TaskForm({ onCreated }) {
                   onChange={handleChange}
                   maxLength={DESC_MAX + 1}
                   rows={4}
-                  placeholder="Describe the task (optional)..."
+                  placeholder="Describe the task..."
                   className={`w-full bg-[#0f1421] border rounded-xl px-4 py-2.5 text-white text-sm placeholder-gray-600 focus:outline-none transition-all duration-200 resize-none ${
                     errors.description ? "border-red-500 focus:border-red-400" : "border-[#2a3040] focus:border-indigo-500"
                   }`}
